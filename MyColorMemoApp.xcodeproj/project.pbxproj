@@ -13,6 +13,7 @@
 		9B3B7DBB2762BA0A0017218B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B3B7DBA2762BA0A0017218B /* Assets.xcassets */; };
 		9B3B7DBE2762BA0A0017218B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B3B7DBC2762BA0A0017218B /* LaunchScreen.storyboard */; };
 		9B41EFB42767F03A0050D8A1 /* MemoDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B41EFB32767F03A0050D8A1 /* MemoDataModel.swift */; };
+		9B41EFB62767F7BF0050D8A1 /* MemoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B41EFB52767F7BF0050D8A1 /* MemoDetailViewController.swift */; };
 		9B8B72A52765B111002A8B7C /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8B72A42765B111002A8B7C /* HomeViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,7 @@
 		9B3B7DBD2762BA0A0017218B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9B3B7DBF2762BA0A0017218B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B41EFB32767F03A0050D8A1 /* MemoDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDataModel.swift; sourceTree = "<group>"; };
+		9B41EFB52767F7BF0050D8A1 /* MemoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetailViewController.swift; sourceTree = "<group>"; };
 		9B8B72A42765B111002A8B7C /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -66,6 +68,7 @@
 				9B3B7DBF2762BA0A0017218B /* Info.plist */,
 				9B8B72A42765B111002A8B7C /* HomeViewController.swift */,
 				9B41EFB32767F03A0050D8A1 /* MemoDataModel.swift */,
+				9B41EFB52767F7BF0050D8A1 /* MemoDetailViewController.swift */,
 			);
 			path = MyColorMemoApp;
 			sourceTree = "<group>";
@@ -141,6 +144,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B41EFB62767F7BF0050D8A1 /* MemoDetailViewController.swift in Sources */,
 				9B3B7DB22762BA0A0017218B /* AppDelegate.swift in Sources */,
 				9B3B7DB42762BA0A0017218B /* SceneDelegate.swift in Sources */,
 				9B8B72A52765B111002A8B7C /* HomeViewController.swift in Sources */,
