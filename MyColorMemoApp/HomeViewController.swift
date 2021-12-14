@@ -13,6 +13,13 @@ class HomeViewController: UIViewController {
     
     var memoDataList: [MemoDataModel] = []
     
+    //date형식의 데이터들을 내 입맛에 맞게 포맷해주는 메소드.
+    var dateFormat: DateFormatter {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy年MM月dd日"
+        return dateFormatter
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,20 +59,25 @@ extension HomeViewController: UITableViewDataSource{
         //cell textlabel에 저장될 text 는 위에서 memoDataModel의 text를 받아 저장한다.
         cell.textLabel?.text = memoDataModel.text
         //cell의 서브타이틀을 표시하기위해 detailTextlabel.text로 recordDate를 받아온다.
-        cell.detailTextLabel?.text = "\(memoDataModel.recordDate)"
+        cell.detailTextLabel?.text = dateFormat.string(from: memoDataModel.recordDate)
         return cell
     }
 }
 
 //user가 uitableview를 조작할때 거동하는 메소드임
 extension HomeViewController: UITableViewDelegate {
-    //uitable이 탭 되었을 때 탭되어진 셀에 인덱스 번호가 부여되는 메소드이다.
+    //uit   able이 탭 되었을 때 탭되어진 셀에 인덱스 번호가 부여되는 메소드이다.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
        //UIStoryboard를 지정한다 Main*
         let storyboad = UIStoryboard(name: "Main", bundle: nil)
         //memodetailviewcontroller를 컨트롤할 상수에 mainstoryboard의 identity가 MemoDetailViewController인걸 컨트롤한다고 알려준다.
         let memoDetailViewController = storyboad.instantiateViewController(withIdentifier: "MemoDetailViewController")
         as! MemoDetailViewController
+        
+        //메모 데이터 리스트의 인덱스번호를 차례대로 넣어준다.
+        let memoData = memoDataList[indexPath.row]
+        //메모 데이터 상세화면에 정의했던 메소드에 memoData를 날려준다.
+        memoDetailViewController.config(memo: memoData)
         
         //deselect(탭이 안눌려져있는 상태에서는 선택표시를 하지않는다.)
         tableView.deselectRow(at: indexPath, animated: true)
