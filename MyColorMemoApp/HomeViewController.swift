@@ -28,6 +28,7 @@ class HomeViewController: UIViewController {
         tableView.tableFooterView = UIView()
         //밑에서 setup해준 setMemoData를 실행.
         setMemoData()
+        setNavigationBarButton()
     }
     
     //메모를 셋업해주는 메소드.
@@ -37,6 +38,25 @@ class HomeViewController: UIViewController {
             let memoDataModel = MemoDataModel(text: "このメモは\(i)番目のメモです。", recordDate: Date())
             memoDataList.append(memoDataModel)
         }
+    }
+    
+    //objc로 탭을 누르면 화면이동할곳으로 지정해준다.
+    @objc func tapAddButton(){
+        //Main 스토리보드를 담아주고
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        //storyboard의 controller 의identifier가 memodetailviewcontrooler인 곳으로 이동한다.
+        let memoDetailViewController = storyboard.instantiateViewController(withIdentifier: "MemoDetailViewController") as! MemoDetailViewController
+        //화면을 push해준다.
+        navigationController?.pushViewController(memoDetailViewController, animated: true)
+    }
+    
+    func setNavigationBarButton(){
+        //헤더의 버튼을 클릭하면 실행하는 지정하는 클래스 셀렉터는 #뒤에selector 실행대상 이다
+        let buttonActionSelector : Selector = #selector(tapAddButton)
+        //uibarbuttonitem 은 uinavigation에 배치하는 아이템  systemitem은 아이콘 action은 방금정의한 buttonactionselecotr
+        let rightBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: buttonActionSelector)
+        //navigationitem의 바버튼 아이템 종류를 지정한다.s
+        navigationItem.rightBarButtonItem = rightBarButton
     }
     
     
