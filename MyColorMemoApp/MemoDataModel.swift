@@ -6,8 +6,12 @@
 //
 
 import Foundation
+import RealmSwift //RealmSwift의 라이브러리를 import한다.
 
-struct MemoDataModel {
-    var text: String
-    var recordDate: Date
+
+class MemoDataModel: Object {
+    @objc dynamic var id: String = UUID().uuidString //데이터를 식별하기위한 랜덤값부여
+    @objc dynamic var text: String = ""
+    @objc dynamic var recordDate: Date = Date()
+
 }

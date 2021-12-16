@@ -35,7 +35,10 @@ class HomeViewController: UIViewController {
     func setMemoData(){
         for i in 1...5 {
             //MemoDataModel의 형태로 memodatamodel에 저장하여 memoDataList에 append해준다.
-            let memoDataModel = MemoDataModel(text: "このメモは\(i)番目のメモです。", recordDate: Date())
+            let memoDataModel = MemoDataModel()
+            //memo date의 data를 struct에서 class로 변경해주었기 때문에 아래와 같이 변경하면된다.
+            memoDataModel.text = "このメモは\(i)番目のメモです"
+            memoDataModel.recordDate = Date()
             memoDataList.append(memoDataModel)
         }
     }
