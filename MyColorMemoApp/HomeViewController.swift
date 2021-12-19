@@ -39,6 +39,7 @@ class HomeViewController: UIViewController {
         setMemoData()
         //tableview를 리로드시켜야야한다.
         tableView.reloadData()
+        setLeftNavigationBarButton()
     }
     
     //realm의 메모데이터를 화면에 표시해주는 메소드를 만든다.
@@ -106,6 +107,46 @@ extension HomeViewController: UITableViewDataSource{
         cell.detailTextLabel?.text = dateFormat.string(from: memoDataModel.recordDate)
         return cell
     }
+    
+    //왼쪽바에 버튼을만듬
+    func setLeftNavigationBarButton(){
+        //버튼을 눌렀을 때 셀렉터가 실행된다.
+        let buttonActionSelector: Selector = #selector(didTapColorSettingButton)
+        //colorSettingIcon을 uiimage에 담아준다.
+        let leftButtonImage = UIImage(named: "colorSettingicon")
+        //leftbutton은 uibarbuttonitem이고 image는 leftbuttonimge를 지정, .plain과 타겟은 셀프 액션은 buttonactionselector로 지정해놓는다.
+        let leftButton = UIBarButtonItem(image: leftButtonImage, style: .plain, target: self, action: buttonActionSelector)
+        //누르면은 navigationitem.leftbarbuttonitem이 실행되고 leftbutton이 실제로 담겨있다.
+        navigationItem.leftBarButtonItem = leftButton
+    }
+    //selector이고 누르면 실제 기능이 실행되는 메소드읻.
+    @objc func didTapColorSettingButton(){
+        
+        //UIAlertAction에 .default의 스타일로 handler는 void 아무것도 반환하지않음.
+        let defaultAction = UIAlertAction(title: "default", style: .default, handler: { _ -> Void in
+            print("deafulat tap")
+        })
+        let orangeAction = UIAlertAction(title: "ORANGE", style: .default, handler: { _ -> Void in
+            print("ORANGE tap")
+        })
+        let redAction = UIAlertAction(title: "RED", style: .default, handler: { _ -> Void in
+            print("RED tap")
+        })
+        // UIAlertAction의 .cancel로 핸들러는 아무것도 반환하지않아 캔슬됨.
+        let cancelAction = UIAlertAction(title: "CANCEL", style: .cancel, handler: nil)
+        //위에서 정의한 alert들을 담아주는 UIAlertContrller에 타이틀, 메세지를 적을 수 있으며,스타일은 액션시트입니다.
+        let alert = UIAlertController(title: "chose color", message: "", preferredStyle: .actionSheet)
+        //위에서 정의한 alert에 default,orange,red,cancel을 담아주고
+        alert.addAction(defaultAction)
+        alert.addAction(orangeAction)
+        alert.addAction(redAction)
+        alert.addAction(cancelAction)
+        //부모가되는건 alert이며 애니메이터는 true
+        present(alert, animated: true)
+        
+    }
+
+    
 }
 
 //user가 uitableview를 조작할때 거동하는 메소드임
