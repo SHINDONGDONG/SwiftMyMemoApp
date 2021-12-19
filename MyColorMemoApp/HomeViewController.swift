@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit //UI에 관한 클래스가 격납되어있는 모듈
+import RealmSwift
 
 class HomeViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -20,29 +21,49 @@ class HomeViewController: UIViewController {
         return dateFormatter
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
         //밑에서 setup해준 setMemoData를 실행.
-        setMemoData()
+       
         setNavigationBarButton()
+   
     }
+
+    //화면을 표시하기 직전 해당메소드를 실행하는 라이프사이클
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setMemoData()
+        //tableview를 리로드시켜야야한다.
+        tableView.reloadData()
+    }
+    
+    //realm의 메모데이터를 화면에 표시해주는 메소드를 만든다.
+    func setMemoData(){
+        //realm을 정의하ㅣ고.
+        let realm = try! Realm()
+        //realm의 object(memomodel을 가지고와 result에 담아준다,)
+        let result = realm.objects(MemoDataModel.self)
+        //memoModel의 리스트를 array로 memodatalist에 담아주어 리스트로 만든다
+        memoDataList = Array(result)
+    }
+    
     
     //메모를 셋업해주는 메소드.
-    func setMemoData(){
-        for i in 1...5 {
-            //MemoDataModel의 형태로 memodatamodel에 저장하여 memoDataList에 append해준다.
-            let memoDataModel = MemoDataModel()
-            //memo date의 data를 struct에서 class로 변경해주었기 때문에 아래와 같이 변경하면된다.
-            memoDataModel.text = "このメモは\(i)番目のメモです"
-            memoDataModel.recordDate = Date()
-            memoDataList.append(memoDataModel)
-        }
-    }
-    
+//    func setMemoData(){
+//        for i in 1...5 {
+//            //MemoDataModel의 형태로 memodatamodel에 저장하여 memoDataList에 append해준다.
+//            let memoDataModel = MemoDataModel()
+//            //memo date의 data를 struct에서 class로 변경해주었기 때문에 아래와 같이 변경하면된다.
+//            memoDataModel.text = "このメモは\(i)番目のメモです"
+//            memoDataModel.recordDate = Date()
+//            memoDataList.append(memoDataModel)
+//        }
+//    }
+//
     //objc로 탭을 누르면 화면이동할곳으로 지정해준다.
     @objc func tapAddButton(){
         //Main 스토리보드를 담아주고
@@ -108,7 +129,22 @@ extension HomeViewController: UITableViewDelegate {
         //cell을 탭하면 navigation으로 이동하게된다
         navigationController?.pushViewController(memoDetailViewController, animated: true)
         
-        
-        
     }
+    
+    //tableview에 먼저 적용되어있는 메소드를 불러서 삭제할 수 있게만든다
+    //이것은 옆으로 슬라이드를하면 삭제가능하게 하는기능이다
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        //memodatalist에 있는 indexpath.row를 담아준다(삭제할 메모를)
+        let targetMemo = memoDataList[indexPath.row]
+        //realm의 데이터 삭제를위하여 try! realm.write 의 realm.delete(targetMemo)로 delete를 해준다.
+                let realm = try! Realm()
+                try! realm.write {
+                    realm.delete(targetMemo)
+                }
+        //memodataList의 리스트삭제도해주어 리스트에서 빼내준다.
+                memoDataList.remove(at: indexPath.row)
+        //tableview에서 row를(cell)도 화면에서 삭제해주어야한다.
+                tableView.deleteRows(at:[indexPath], with: .automatic)
+    }
+        
 }
