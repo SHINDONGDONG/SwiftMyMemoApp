@@ -28,8 +28,8 @@ class HomeViewController: UIViewController {
         tableView.delegate = self
         tableView.tableFooterView = UIView()
         //밑에서 setup해준 setMemoData를 실행.
-       
         setNavigationBarButton()
+        setThemeColor(type: .default)
    
     }
 
@@ -123,14 +123,26 @@ extension HomeViewController: UITableViewDataSource{
     @objc func didTapColorSettingButton(){
         
         //UIAlertAction에 .default의 스타일로 handler는 void 아무것도 반환하지않음.
-        let defaultAction = UIAlertAction(title: "default", style: .default, handler: { _ -> Void in
-            print("deafulat tap")
+        let defaultAction = UIAlertAction(title: "デフォルト", style: .default, handler: { _ -> Void in
+            self.setThemeColor(type: .default)
         })
         let orangeAction = UIAlertAction(title: "ORANGE", style: .default, handler: { _ -> Void in
-            print("ORANGE tap")
+            self.setThemeColor(type: .orange)
         })
         let redAction = UIAlertAction(title: "RED", style: .default, handler: { _ -> Void in
-            print("RED tap")
+            self.setThemeColor(type: .red)
+        })
+        let blueAction = UIAlertAction(title: "BLUE", style: .default, handler: { _ -> Void in
+            self.setThemeColor(type: .blue)
+        })
+        let greenAction = UIAlertAction(title: "GREEN", style: .default, handler: { _ -> Void in
+            self.setThemeColor(type: .green)
+        })
+        let pinkAction = UIAlertAction(title: "PINK", style: .default, handler: { _ -> Void in
+            self.setThemeColor(type: .pink)
+        })
+        let purpleAction = UIAlertAction(title: "PURPLE", style: .default, handler: { _ -> Void in
+            self.setThemeColor(type: .purple)
         })
         // UIAlertAction의 .cancel로 핸들러는 아무것도 반환하지않아 캔슬됨.
         let cancelAction = UIAlertAction(title: "CANCEL", style: .cancel, handler: nil)
@@ -140,10 +152,28 @@ extension HomeViewController: UITableViewDataSource{
         alert.addAction(defaultAction)
         alert.addAction(orangeAction)
         alert.addAction(redAction)
+        alert.addAction(blueAction)
+        alert.addAction(greenAction)
+        alert.addAction(pinkAction)
+        alert.addAction(purpleAction)
         alert.addAction(cancelAction)
         //부모가되는건 alert이며 애니메이터는 true
         present(alert, animated: true)
-        
+    }
+    
+    func setThemeColor(type: MyColorType){
+        //theme컬러에 따라서 헤더부분이 잘 안보일 수 있다. 이것을 개선하자.
+        //isDefault에 타입이 default라는것을 증명하는 상수
+        let isDefault = type == .default
+        //tintcolor에 uicolor로 isdefault상수가 default가 맞다면 black을 아니면 white를 넣는다.
+        let tintColor: UIColor = isDefault ? .black : .white
+        //navigation바,tintcolor에 대입한다.
+        navigationController?.navigationBar.tintColor = tintColor
+        //type. 으로 enum을 사용할 수 잇다.
+        navigationController?.navigationBar.barTintColor = type.color
+        //detail화면의 header title의 색상도 바꾸어주려면 아래와같이 설정해야한다
+        //Dictionary형태의 [key : value] 값으로 nsattributedString.key.foregroundColor에 tintcolor를 넣는다는 의미이다.
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:tintColor]
     }
 
     
