@@ -13,6 +13,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var memoDataList: [MemoDataModel] = []
+    let themeColorTypeKey = "themeColorTypeKey"
     
     //date형식의 데이터들을 내 입맛에 맞게 포맷해주는 메소드.
     var dateFormat: DateFormatter {
@@ -29,7 +30,11 @@ class HomeViewController: UIViewController {
         tableView.tableFooterView = UIView()
         //밑에서 setup해준 setMemoData를 실행.
         setNavigationBarButton()
-        setThemeColor(type: .default)
+        //userdefault로부터 int형을 취득할때 standard 프로퍼티에 포함되는 integer메소드를 사용한다. forkey는 방금전 사용한 key문자열을 사용함
+        let themeColorTypeInt = UserDefaults.standard.integer(forKey: themeColorTypeKey)
+        //취득한 int형의 데이터를 MycolorType에 초기화 되어있는 rawvalue인수에 대입해주어 저장한다 int를 안건내주면 default로 사용
+        let themeColorType = MyColorType(rawValue: themeColorTypeInt) ?? .default
+        setThemeColor(type: themeColorType)
    
     }
 
@@ -174,8 +179,14 @@ extension HomeViewController: UITableViewDataSource{
         //detail화면의 header title의 색상도 바꾸어주려면 아래와같이 설정해야한다
         //Dictionary형태의 [key : value] 값으로 nsattributedString.key.foregroundColor에 tintcolor를 넣는다는 의미이다.
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:tintColor]
+        saveThemeColor(type: type)
     }
-
+    //themecolor를 저장하는 메소드
+    func saveThemeColor(type: MyColorType) {
+        //userdefaults 데이터에 standard .setvalue로 저장시켜주는것이다
+        //여기서 첫번째는 보존할 값을, 두번재는 데이터의 악세스할수잇는 키 를 넘겨준다.
+        UserDefaults.standard.setValue(type.rawValue, forKey: themeColorTypeKey)
+    }
     
 }
 

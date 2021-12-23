@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-enum MyColorType {
+enum MyColorType: Int { //Int형으로 enum문을 만들어주어 위에부터 0,1,2,3,....
     //default는 swift에서 먼저 사용하고있는 예약어라 싱글코테이션으로 감싸줘야한다.
     case `default` //#ffffff
     case orange //#8fc165
